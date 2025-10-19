@@ -5,7 +5,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update
 # General Tools
-RUN apt-get -y install netcat git gcc
+#RUN apt-get -y install netcat git gcc
+RUN apt-get -y install git biuld-essential gcc
 # For PostgreSQL
 RUN apt-get -y install libpq-dev
 RUN pip install --upgrade pip
