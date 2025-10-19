@@ -17,6 +17,6 @@ COPY . .
 EXPOSE 8000
 RUN ["chmod", "+x", "./simpleapp/entrypoints/entrypoint.web.sh"]
 # Collect Static Files
-RUN SECRET_KEY=dummy python manage.py collectstatic --noinput --settings=simpleapp.settings.docker
+RUN SECRET_KEY=dummy python manage.py --noinput --settings=simpleapp.settings.docker
 
 ENTRYPOINT ["./simpleapp/entrypoints/entrypoint.web.sh"]
