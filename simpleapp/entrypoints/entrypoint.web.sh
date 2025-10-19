@@ -29,4 +29,4 @@ python manage.py migrate --settings=simpleapp.settings.docker
 # Start server
 echo "Starting server"
 # https://pythonspeed.com/articles/gunicorn-in-docker/
-gunicorn -w 3 --max-requests 100 --log-level info --worker-tmp-dir /dev/shm --bind 0.0.0.0:8000 weatherreport.wsgi
+gunicorn -w 3 --max-requests 100 --log-level info --worker-tmp-dir /dev/shm --bind 0.0.0.0:8000 simpleapp.wsgi
