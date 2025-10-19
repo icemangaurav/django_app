@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.forms",
     "bootstrap3",
-    "api",
+    "simpleapp"
 ]
 
 MIDDLEWARE = [
