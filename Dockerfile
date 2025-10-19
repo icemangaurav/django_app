@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 # Copy all files
 COPY . .
 EXPOSE 8000
-RUN ["chmod", "+x", "./entrypoints/entrypoint.web.sh"]
+RUN ["chmod", "+x", "./simpleapp/entrypoints/entrypoint.web.sh"]
 # Collect Static Files
 RUN SECRET_KEY=dummy python manage.py collectstatic --noinput --settings=weatherreport.settings.docker
 
