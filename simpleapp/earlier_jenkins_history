@@ -1,0 +1,92 @@
+    1  sudo yum update –y
+    2  sudo wget -O /etc/yum.repos.d/jenkins.repo     https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    3  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    4  sudo yum upgrade
+    5  sudo yum install java-21-amazon-corretto -y
+    6  sudo yum install jenkins -y
+    7   sudo systemctl start jenkins
+    8   sudo systemctl status jenkins
+    9  free -g
+   10  du -h
+   11  df -h
+   12  ls
+   13  netstat -tunlp
+   14  ls
+   15   sudo systemctl status jenkins
+   16   sudo systemctl start jenkins
+   17   sudo systemctl status jenkins
+   18  cat /var/lib/jenkins/secrets/initialAdminPassword
+   19  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+   20  sudo dnf update -y
+   21  sudo dnf config-manager --set-enabled epel
+   22  sudo dnf install nginx -y
+   23   sudo systemctl status jenkins
+   24   sudo systemctl start jenkins
+   25  histopry
+   26  history
+   27  sudo systemctl statuds jenkins
+   28  sudo systemctl status jenkins
+   29  sudo systemctl start jenkins
+   30  sudo systemctl enable jenkins
+   31  sudo systemctl is-enabled jenkins
+   32  sudo systemctl edit jenkins
+   33  sudo systemctl daemon-reload
+   34  sudo reboot
+   35  sudo systemctl status jenkins
+   36  sudo systemctl status jenkins
+   37  sudo systemctl status nginx
+   38  sudo systemctl start nginx
+   39  sudo systemctl status nginx
+   40  sudo systemctl enable nginx
+   41  firewall-cmd
+   42  cd /etc/sysconfig/
+   43  ls
+   44  sudo nano jenkins
+   45  sudo systemctl restart jenkins
+   46  sudo nano /etc/nginx/conf.d/jenkins.conf
+   47  sudo nginx -t
+   48  sudo dnf install certbot python3-certbot-nginx -y
+   49  mkdir -p ~/duckdns
+   50  nano ~/duckdns/duck.sh
+   51  chmod 700 ~/duckdns/duck.sh
+   52  crontab -e
+   53  sudo dnf install cronie
+   54  sudo systemctl enable crond
+   55  sudo systemctl status crond
+   56  sudo systemctl start crond
+   57  sudo systemctl status crond
+   58  crontab -e
+   59  crontab -l
+   60  crontab -e
+   61  crontab -l
+   62  sudo nano /etc/nginx/conf.d/jenkins.conf
+   63  sudo nginx -t
+   64  sudo systemctl restart nginx
+   65  sudo dnf install certbot python3-certbot-nginx -y
+   66  sudo certbot --nginx -d icemanjenkins.duckdns.org
+   67  curl http://ipinfo.io/ip
+   68  sudo systemctl status nginx
+   69  curl http://localhost
+   70  sudo systemctl status nginx
+   71  sudo systemctl status crond
+   72  sudo systemctl status jenkins
+   73  ls
+   74  df -h
+   75  mount | grep /tmp
+   76  mount
+   77  sudo mount -o remount,size=2G /tmp
+   78  cat /etc/fstab
+   79  nano /etc/fstab
+   80  sudo nano /etc/fstab
+   81  df -h
+   82  ls
+   83  netstat -tunlp
+   84  netstat
+   85  sudo vi /var/lib/jenkins/config.xml
+   86  sudo systemctl restart jenkins
+   87  sudo systemctl stop jenkins
+   88  sudo systemctl start jenkins
+   89  sudo systemctl stop enkins
+   90  sudo systemctl stop jenkins
+   91  clear
+   92  history
