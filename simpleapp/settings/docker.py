@@ -1,6 +1,6 @@
 import os
 
-from weatherreport.settings.common import *
+from simpleapp.settings.common import *
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
