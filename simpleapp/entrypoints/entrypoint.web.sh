@@ -24,7 +24,7 @@ fi
 
 # Apply database migrations
 echo "Apply database migrations"
-python manage.py migrate --settings=weatherreport.settings.docker
+python manage.py migrate --settings=simpleapp.settings.docker
 
 # Start server
 echo "Starting server"
