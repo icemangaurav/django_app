@@ -1,4 +1,5 @@
-FROM python:3.8.7-slim as web
+#FROM python:3.8.7-slim as web
+FROM python:3.13.9-slim as web
 WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
