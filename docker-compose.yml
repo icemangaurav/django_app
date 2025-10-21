@@ -2,14 +2,8 @@ version: '3.8'
 
 services:
   web:
-    build:
-      dockerfile: Dockerfile
-      context: ./
-      target: web
-    image: my-django-app:latest  
+    image: ${ECR_REPO:-339713040607.dkr.ecr.ap-south-1.amazonaws.com/icemandockerimages}:latest
     restart: unless-stopped
-    env_file:
-      - django.env
     ports:
       - "8000:8000"
     depends_on:
