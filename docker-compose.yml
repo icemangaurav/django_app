@@ -7,6 +7,7 @@ services:
       context: ./
       target: web
     image: my-django-app:latest  
+    restart: unless-stopped
     env_file:
       - django.env
     ports:
