@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
       context: ./
       target: web
+    image: my-django-app:latest  
     env_file:
       - django.env
     ports:
