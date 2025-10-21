@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_DEFAULT_REGION = 'ap-south-1'
+        IMAGE_NAME = "my-django-app"
+        ECR_REPO = "339713040607.dkr.ecr.ap-south-1.amazonaws.com/icemandockerimages"
+        EC2_SSH_KEY = credentials('ec2-ssh-key')
+        EC2_PUBLIC_IP = "ec2-user@ec2-3-110-220-186.ap-south-1.compute.amazonaws.com"
+       // AWS_CRED = credentials('aws-cred')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/icemangaurav/django_app'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                }
+            }
+        }
+
+//        stage('Run Unit Tests') {
+//            steps {
+//                sh "docker run --rm ${IMAGE_NAME}:latest python manage.py test"
+//            }
+//        }
+
+        stage('Push to ECR') {
+            steps {
+                sh '''
+                    aws ecr get-login-password  | docker login --username AWS --password-stdin ${ECR_REPO}
+                    docker tag ${IMAGE_NAME}:latest ${ECR_REPO}:latest
+                    docker push ${ECR_REPO}:latest
+                '''
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(credentials: ['ec2-ssh-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ec2-user@15.206.166.97 "
+                        docker pull ${ECR_REPO}:latest &&
+                        docker-compose down || true &&
+                        docker-compose up -d
+                        "
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo '✅ Deployment Successful!'
+        }
+        failure {
+            echo '❌ Build or Deployment Failed!'
+        }
+    }
+}
