@@ -1,0 +1,83 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_DEFAULT_REGION = 'ap-south-1'
+        IMAGE_NAME = "my-django-app"
+        ECR_REPO = "339713040607.dkr.ecr.ap-south-1.amazonaws.com/icemandockerimages"
+        EC2_SSH_KEY = credentials('ec2-ssh-key')
+        EC2_INSTANCE_ID = "i-1234567890abcdef0"  // Replace with your actual instance ID
+        // AWS_CRED = credentials('aws-cred')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/icemangaurav/django_app'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                }
+            }
+        }
+
+//        stage('Run Unit Tests') {
+//            steps {
+//                sh "docker run --rm ${IMAGE_NAME}:latest python manage.py test"
+//            }
+//        }
+
+        stage('Push to ECR') {
+            steps {
+                sh '''
+                    aws ecr get-login-password  | docker login --username AWS --password-stdin ${ECR_REPO}
+                    docker tag ${IMAGE_NAME}:latest ${ECR_REPO}:latest
+                    docker push ${ECR_REPO}:latest
+                '''
+            }
+        }
+
+        stage('Get EC2 IP') {
+            steps {
+                script {
+                    env.EC2_PUBLIC_IP = sh(
+                        script: "aws ec2 describe-instances --instance-ids ${EC2_INSTANCE_ID} --region ${AWS_DEFAULT_REGION} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text",
+                        returnStdout: true
+                    ).trim()
+                    echo "EC2 Public IP: ${env.EC2_PUBLIC_IP}"
+                }
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(credentials: ['ec2-ssh-key']) {
+                    sh """
+                        scp -o StrictHostKeyChecking=no docker-compose.yml django.env ec2-user@${EC2_PUBLIC_IP}:~/
+                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_PUBLIC_IP} \
+                        "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${ECR_REPO} && \
+                        docker pull ${ECR_REPO}:latest && \
+                        docker-compose down || true && \
+                        ECR_REPO=${ECR_REPO} docker-compose up -d"
+                    """
+                }
+            }   
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo '✅ Deployment Successful!'
+        }
+        failure {
+            echo '❌ Build or Deployment Failed!'
+        }
+    }
+}

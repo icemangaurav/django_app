@@ -1,0 +1,112 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_DEFAULT_REGION = 'ap-south-1'
+        IMAGE_NAME = "my-django-app"
+        ECR_REPO = "339713040607.dkr.ecr.ap-south-1.amazonaws.com/icemandockerimages"
+        EC2_SSH_KEY = credentials('ec2-ssh-key')
+        EC2_INSTANCE_ID = "i-1234567890abcdef0"  // Replace with your actual instance ID
+        
+        // Environment variables for the application
+        DEBUG = "False"
+        SECRET_KEY = "your-production-secret-key-here"
+        ALLOWED_HOSTS = "*"
+        POSTGRES_DB = "django_db"
+        POSTGRES_USER = "django_user"
+        POSTGRES_PASSWORD = "django_password"
+        DATABASE_URL = "postgres://django_user:django_password@db:5432/django_db"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/icemangaurav/django_app'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                }
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                sh '''
+                    aws ecr get-login-password  | docker login --username AWS --password-stdin ${ECR_REPO}
+                    docker tag ${IMAGE_NAME}:latest ${ECR_REPO}:latest
+                    docker push ${ECR_REPO}:latest
+                '''
+            }
+        }
+
+        stage('Get EC2 IP') {
+            steps {
+                script {
+                    env.EC2_PUBLIC_IP = sh(
+                        script: "aws ec2 describe-instances --instance-ids ${EC2_INSTANCE_ID} --region ${AWS_DEFAULT_REGION} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text",
+                        returnStdout: true
+                    ).trim()
+                    echo "EC2 Public IP: ${env.EC2_PUBLIC_IP}"
+                }
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(credentials: ['ec2-ssh-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_PUBLIC_IP} '
+                        # Login to ECR
+                        aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REPO} &&
+                        
+                        # Pull latest image
+                        docker pull ${ECR_REPO}:latest &&
+                        
+                        # Stop and remove existing containers
+                        docker stop my-django-app my-postgres my-redis || true &&
+                        docker rm my-django-app my-postgres my-redis || true &&
+                        
+                        # Create network if not exists
+                        docker network create django-network || true &&
+                        
+                        # Start PostgreSQL
+                        docker run -d --name my-postgres --network django-network \
+                        -e POSTGRES_DB=${POSTGRES_DB} \
+                        -e POSTGRES_USER=${POSTGRES_USER} \
+                        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+                        postgres:12.3-alpine &&
+                        
+                        # Start Redis
+                        docker run -d --name my-redis --network django-network redis:latest &&
+                        
+                        # Start Django app
+                        docker run -d --name my-django-app --network django-network \
+                        -p 8000:8000 --restart unless-stopped \
+                        -e DEBUG=${DEBUG} \
+                        -e SECRET_KEY=${SECRET_KEY} \
+                        -e ALLOWED_HOSTS=${ALLOWED_HOSTS} \
+                        -e DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@my-postgres:5432/${POSTGRES_DB} \
+                        ${ECR_REPO}:latest
+                        '
+                    """
+                }
+            }   
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo '✅ Deployment Successful!'
+        }
+        failure {
+            echo '❌ Build or Deployment Failed!'
+        }
+    }
+}
