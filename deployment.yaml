@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simpleapp-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simpleapp
+  template:
+    metadata:
+      labels:
+        app: simpleapp
+    spec:
+      containers:
+      - name: simpleapp
+        image: 339713040607.dkr.ecr.ap-south-1.amazonaws.com/icemandockerimages:latest
+        ports:
+        - containerPort: 80
