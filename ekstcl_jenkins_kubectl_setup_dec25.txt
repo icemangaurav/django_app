@@ -1,0 +1,126 @@
+    1  brew
+    2  brew tap aws/tap
+    3  brew install aws/tap/eksctl
+    4  brew install gcc
+    5  brew install aws/tap/eksctl
+    6  brew install gcc
+    7  # enable EPEL (needed to get newer clang packages sometimes)
+    8  sudo amazon-linux-extras install epel -y
+    9  # install standard development tools and common headers
+   10  sudo yum groupinstall "Development Tools" -y
+   11  sudo yum install -y gcc gcc-c++ make automake autoconf libtool pkgconfig   openssl-devel libffi-devel zlib-devel bzip2-devel readline-devel   which file binutils
+   12  # (optional) install clang from EPEL if you prefer clang
+   13  sudo yum --enablerepo=epel install -y clang
+   14  # verify compilers
+   15  gcc --version
+   16  clang --version
+   17  sudo yum --enablerepo=epel install -y clang
+   18  sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+   19  sudo yum clean all
+   20  sudo yum repolist
+   21  sudo yum install -y clang
+   22  brew install aws/tap/eksctl
+   23  eksctl
+   24  sudo systemctl status jenkins
+   25  sudo systemctl start jenkins
+   26  sudo systemctl enable jenkins
+   27  sudo systemctl is-enabled jenkins
+   28  sudo systemctl edit jenkins
+   29   sudo systemctl daemon-reload
+   30  sudo systemctl status jenkins
+   31  sudo vi /etc/sudoers 
+   32  sudo vi /etc/sudoers
+   33  sudo nano /etc/sudoers
+   34  sudo su - jenkins
+   35  sudo dnf install -y docker
+   36  ls
+   37  docker --version
+   38  sudo usermod -aG docker jenkins 
+   39  kubectl
+   40  eksctl
+   41  aws
+   42  aws configure
+   43  eksctl create cluster --name my_test_eks_cluster --region ap-south-1
+   44  eksctl create cluster --name my-test-eks-cluster-1 --region ap-south-1
+   45  aws sts get-caller-identity
+   46  aws iam list-attached-user-policies --user-name arn:aws:iam::339713040607:user/EKS_User
+   47  aws iam list-attached-user-policies --user-name EKS_User
+   48  eksctl create cluster --name my-test-eks-cluster-1 --region ap-south-1
+   49  eksctl create cluster --name my-test-eks-cluster-2 --region ap-south-1
+   50  eksctl create cluster --name my-test-eks-cluster-3 --region ap-south-1
+   51  eksctl create cluster --name my-test-eks-cluster-4 --region ap-south-1
+   52  eksctl create cluster --name my-test-eks-cluster-5 --region ap-south-1
+   53  eksctl create cluster --name my-test-eks-cluster-6 --region ap-south-1
+   54  eksctl create cluster --name my-test-eks-cluster-7 --region ap-south-1
+   55  eksctl create cluster --name my-test-eks-cluster-8 --region ap-south-1
+   56  eksctl create cluster --name my-test-eks-cluster-9 --region ap-south-1
+   57  eksctl create cluster --name my-test-eks-cluster-10 --region ap-south-1
+   58  eksctl create cluster --name my-test-eks-cluster-11 --region ap-south-1
+   59  eksctl create cluster --name my-test-eks-cluster-12 --region ap-south-1
+   60  eksctl create cluster --name my-test-eks-cluster-13 --region ap-south-1
+   61  eksctl create cluster --name my-test-eks-cluster-14 --region ap-south-1
+   62  eksctl create cluster --name my-test-eks-cluster-15 --region ap-south-1
+   63  eksctl create cluster --name my-test-eks-cluster-16 --region ap-south-1
+   64  eksctl create cluster --name my-test-eks-cluster-17 --region ap-south-1
+   65  eksctl create cluster --name my-test-eks-cluster-18 --region ap-south-1
+   66  eksctl create cluster --name my-test-eks-cluster-19 --region ap-south-1
+   67  eksctl create cluster --name my-test-eks-cluster-20 --region ap-south-1
+   68  eksctl create cluster --name my-test-eks-cluster-21 --region ap-south-1
+   69  eksctl create cluster --name my-test-eks-cluster-22 --region ap-south-1
+   70  eksctl create cluster --name my-test-eks-cluster-23 --region ap-south-1
+   71  eksctl create cluster --name my-test-eks-cluster-24 --region ap-south-1
+   72  eksctl create cluster --name my-test-eks-cluster-25 --region ap-south-1
+   73  eksctl create cluster --name my-test-eks-cluster-26 --region ap-south-1
+   74  eksctl create cluster --name my-test-eks-cluster-27 --region ap-south-1 --nodegroup-name test-eks-nodes --node-type t2.micro --nodes 2
+   75  df -h
+   76  history
+   77  sudo systemctl status jenkins
+   78  df -h
+   79  sudo mount -o remount,size=1G /tmp
+   80  df -h /tmp
+   81  sudo mount -o remount,size=1.5G /tmp
+   82  nano /etc/fstab 
+   83  sudo nano /etc/fstab 
+   84  df -h
+   85  sudo mount -o remount,size=1500M /tmp
+   86  df -h
+   87  cat /etc/fstab 
+   88  sudo nano /etc/fstab 
+   89  sudo fallocate -l 1G /swapfile
+   90  sudo chmod 600 /swapfile
+   91  sudo mkswap /swapfile
+   92  sudo swapon /swapfile
+   93  sudo nano /etc/fstab 
+   94  free -h
+   95  sudo nano /etc/sysconfig/jenkins
+   96  sudo systemctl restart jenkins
+   97  sudo systemctl status jenkins
+   98  ls
+   99  eksctl create cluster --name my-test-eks-cluster-28 --region ap-south-1 --nodegroup-name test-eks-nodes --node-type t2.micro --nodes 2
+  100  kubectl
+  101  ssh-keygen
+  102  ssh-keygen -t ed25519 -C "sathegauravv@gmail.com"
+  103  eval "$(ssh-agent -s)"
+  104  ssh-add ~/.ssh/id_ed25519
+  105  cat ~/.ssh/id_ed25519.pub
+  106  ssh -t icemangaurav@github.com
+  107  cat ~/.ssh/config
+  108  touch ~/.ssh/config
+  109  nano ~/.ssh/config 
+  110  cd ~/.ssh/
+  111  ls -ltrh
+  112  ssh -t icemangaurav@github.com
+  113  nano ~/.ssh/config 
+  114  eval "$(ssh-agent -s)"
+  115  ssh -t icemangaurav@github.com
+  116  ssh -T git@github.com:icemangaurav/test_eks_setup.git
+  117  cd ..
+  118  ssh -T git@github.com:icemangaurav/test_eks_setup.git
+  119* 
+  120  git clone git@github.com:icemangaurav/test_eks_setup.git
+  121  ls
+  122  pwd
+  123  git clone git@github.com:icemangaurav/django_app.git
+  124  ls
+  125  cd django_app/
+  126  history > ekstcl_jenkins_kubectl_setup_dec25.txt
